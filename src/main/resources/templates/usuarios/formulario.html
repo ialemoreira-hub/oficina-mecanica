@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"/></head>
+<body>
+<div th:replace="fragments/layout :: layout('Novo Usuário', ~{::conteudo})">
+<div th:fragment="conteudo">
+
+    <div class="d-flex align-items-center mb-4">
+        <a th:href="@{/usuarios}" class="btn btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
+        <h4 class="fw-bold mb-0">Novo Usuário</h4>
+    </div>
+
+    <div class="card" style="max-width:550px">
+        <div class="card-body">
+            <form th:action="@{/usuarios/salvar}" method="post">
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Perfil *</label>
+                    <select name="tipo" id="tipoPerfil" class="form-select" required onchange="mostrarCampos()">
+                        <option value="">Selecione o perfil...</option>
+                        <option value="ADMINISTRADOR">Administrador</option>
+                        <option value="ATENDENTE">Atendente</option>
+                        <option value="MECANICO">Mecânico</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Nome completo *</label>
+                    <input type="text" name="nome" class="form-control" required/>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">E-mail *</label>
+                    <input type="email" name="email" class="form-control" required/>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Senha *</label>
+                    <input type="password" name="senha" class="form-control" required minlength="6"/>
+                    <div class="form-text">Mínimo 6 caracteres</div>
+                </div>
+
+                <!-- Campo extra: matrícula (só Atendente) -->
+                <div class="mb-3" id="campoMatricula" style="display:none">
+                    <label class="form-label fw-semibold">Matrícula</label>
+                    <input type="text" name="matricula" class="form-control"/>
+                </div>
+
+                <!-- Campo extra: especialidade (só Mecânico) -->
+                <div class="mb-3" id="campoEspecialidade" style="display:none">
+                    <label class="form-label fw-semibold">Especialidade</label>
+                    <input type="text" name="especialidade" class="form-control"
+                           placeholder="Ex: Motor, Elétrica, Suspensão..."/>
+                </div>
+
+                <div class="d-flex gap-2 mt-3">
+                    <button type="submit" class="btn btn-danger px-4">
+                        <i class="bi bi-check-lg me-1"></i>Cadastrar
+                    </button>
+                    <a th:href="@{/usuarios}" class="btn btn-outline-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function mostrarCampos() {
+            const tipo = document.getElementById('tipoPerfil').value;
+            document.getElementById('campoMatricula').style.display    = tipo === 'ATENDENTE' ? 'block' : 'none';
+            document.getElementById('campoEspecialidade').style.display = tipo === 'MECANICO'  ? 'block' : 'none';
+        }
+    </script>
+
+</div>
+</div>
+</body>
+</html>

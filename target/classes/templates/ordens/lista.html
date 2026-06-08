@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"/></head>
+<body>
+<div th:replace="fragments/layout :: layout('Ordens de Serviço', ~{::conteudo})">
+<div th:fragment="conteudo">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="fw-bold mb-0"><i class="bi bi-clipboard-check me-2 text-danger"></i>Ordens de Serviço</h4>
+        <a th:href="@{/ordens/nova}" class="btn btn-danger">
+            <i class="bi bi-plus-lg me-1"></i>Nova OS
+        </a>
+    </div>
+
+    <!-- Filtro por status -->
+    <div class="mb-3 d-flex gap-2 flex-wrap">
+        <a th:href="@{/ordens}" class="btn btn-sm"
+           th:classappend="${statusFiltro == null ? 'btn-dark' : 'btn-outline-dark'}">Todas</a>
+        <a th:each="s : ${todosStatus}"
+           th:href="@{/ordens(status=${s.name()})}"
+           class="btn btn-sm"
+           th:classappend="${statusFiltro == s ? 'btn-dark' : 'btn-outline-secondary'}"
+           th:text="${s.descricao}"></a>
+    </div>
+
+    <div class="card">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>OS</th>
+                        <th>Veículo</th>
+                        <th>Cliente</th>
+                        <th>Mecânico</th>
+                        <th>Status</th>
+                        <th>Abertura</th>
+                        <th>Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="os : ${ordens}">
+                        <td><strong th:text="${os.numeroOs}"></strong></td>
+                        <td th:text="${os.veiculo.descricaoCompleta}"></td>
+                        <td th:text="${os.veiculo.cliente.nome}"></td>
+                        <td th:text="${os.mecanico != null ? os.mecanico.nome : '-'}"></td>
+                        <td>
+                            <span class="badge"
+                                  th:classappend="'badge-' + ${os.status.name()}"
+                                  th:text="${os.status.descricao}"></span>
+                        </td>
+                        <td th:text="${#temporals.format(os.dataAbertura, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${'R$ ' + #numbers.formatDecimal(os.valorTotal, 1, 'COMMA', 2, 'POINT')}"></td>
+                        <td>
+                            <a th:href="@{/ordens/{id}(id=${os.id})}" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(ordens)}">
+                        <td colspan="8" class="text-center text-muted py-4">Nenhuma OS encontrada</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+</div>
+</body>
+</html>

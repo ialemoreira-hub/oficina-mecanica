@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"/></head>
+<body>
+<div th:replace="fragments/layout :: layout('Usuários', ~{::conteudo})">
+<div th:fragment="conteudo">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="fw-bold mb-0"><i class="bi bi-person-gear me-2 text-danger"></i>Usuários do Sistema</h4>
+        <a th:href="@{/usuarios/novo}" class="btn btn-danger">
+            <i class="bi bi-plus-lg me-1"></i>Novo Usuário
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Nome</th>
+                        <th>E-mail</th>
+                        <th>Perfil</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="u : ${usuarios}">
+                        <td th:text="${u.id}"></td>
+                        <td th:text="${u.nome}"></td>
+                        <td th:text="${u.email}"></td>
+                        <td>
+                            <span th:text="${u.tipoDescricao}"
+                                  th:class="${u.tipoDescricao == 'Administrador'} ? 'badge bg-danger' :
+                                             (${u.tipoDescricao == 'Mecânico'} ? 'badge bg-primary' : 'badge bg-secondary')">
+                            </span>
+                        </td>
+                        <td>
+                            <span th:if="${u.ativo}" class="badge bg-success">Ativo</span>
+                            <span th:unless="${u.ativo}" class="badge bg-secondary">Inativo</span>
+                        </td>
+                        <td>
+                            <a th:if="${u.ativo}"
+                               th:href="@{/usuarios/desativar/{id}(id=${u.id})}"
+                               class="btn btn-sm btn-outline-danger"
+                               onclick="return confirm('Desativar este usuário?')">
+                                <i class="bi bi-person-x"></i> Desativar
+                            </a>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(usuarios)}">
+                        <td colspan="6" class="text-center text-muted py-4">Nenhum usuário encontrado</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"/></head>
+<body>
+<div th:replace="fragments/layout :: layout('Relatórios', ~{::conteudo})">
+<div th:fragment="conteudo">
+
+    <h4 class="fw-bold mb-4"><i class="bi bi-bar-chart me-2 text-danger"></i>Relatórios</h4>
+
+    <div class="row g-4">
+        <!-- OS por Status -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header fw-semibold">Ordens por Status</div>
+                <div class="card-body p-0">
+                    <table class="table mb-0">
+                        <thead class="table-light">
+                            <tr><th>Status</th><th>Quantidade</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="row : ${statusCount}">
+                                <td>
+                                    <span class="badge"
+                                          th:classappend="'badge-' + ${row[0].name()}"
+                                          th:text="${row[0].descricao}"></span>
+                                </td>
+                                <td th:text="${row[1]}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Links rápidos -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header fw-semibold">Relatórios Disponíveis</div>
+                <div class="list-group list-group-flush">
+                    <a th:href="@{/relatorios/faturamento}" class="list-group-item list-group-item-action">
+                        <i class="bi bi-cash-coin me-2 text-success"></i>
+                        <strong>Faturamento por Período</strong>
+                        <br><small class="text-muted">Total de receita em um intervalo de datas</small>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+</body>
+</html>

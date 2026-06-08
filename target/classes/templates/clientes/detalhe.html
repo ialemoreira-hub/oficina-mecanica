@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"/></head>
+<body>
+<div th:replace="fragments/layout :: layout('Cliente', ~{::conteudo})">
+<div th:fragment="conteudo">
+
+    <div class="d-flex align-items-center mb-4">
+        <a th:href="@{/clientes}" class="btn btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
+        <h4 class="fw-bold mb-0" th:text="${cliente.nome}"></h4>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-header fw-semibold">Dados do Cliente</div>
+                <div class="card-body">
+                    <p><strong>CPF/CNPJ:</strong> <span th:text="${cliente.cpfCnpj}"></span></p>
+                    <p><strong>Telefone:</strong> <span th:text="${cliente.telefone ?: '-'}"></span></p>
+                    <p><strong>E-mail:</strong> <span th:text="${cliente.email ?: '-'}"></span></p>
+                    <p><strong>Endereço:</strong> <span th:text="${cliente.endereco ?: '-'}"></span></p>
+                    <a th:href="@{/clientes/editar/{id}(id=${cliente.id})}" class="btn btn-warning btn-sm">
+                        <i class="bi bi-pencil me-1"></i>Editar
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-header fw-semibold d-flex justify-content-between">
+                    <span>Veículos</span>
+                    <a th:href="@{/veiculos/novo}" class="btn btn-sm btn-danger">
+                        <i class="bi bi-plus-lg"></i> Novo
+                    </a>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table mb-0">
+                        <thead class="table-light">
+                            <tr><th>Placa</th><th>Veículo</th><th>Ano</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="v : ${cliente.veiculos}">
+                                <td th:text="${v.placa}"></td>
+                                <td th:text="${v.marca + ' ' + v.modelo}"></td>
+                                <td th:text="${v.ano}"></td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(cliente.veiculos)}">
+                                <td colspan="3" class="text-center text-muted py-3">Sem veículos</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+</body>
+</html>

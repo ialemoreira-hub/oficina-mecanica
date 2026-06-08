@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"/></head>
+<body>
+<div th:replace="fragments/layout :: layout('Cliente', ~{::conteudo})">
+<div th:fragment="conteudo">
+
+    <div class="d-flex align-items-center mb-4">
+        <a th:href="@{/clientes}" class="btn btn-outline-secondary me-3">
+            <i class="bi bi-arrow-left"></i>
+        </a>
+        <h4 class="fw-bold mb-0">
+            <span th:text="${cliente.id == null ? 'Novo Cliente' : 'Editar Cliente'}">Cliente</span>
+        </h4>
+    </div>
+
+    <div class="card" style="max-width:600px">
+        <div class="card-body">
+            <form th:action="@{/clientes/salvar}" th:object="${cliente}" method="post">
+                <input type="hidden" th:field="*{id}"/>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Nome *</label>
+                    <input type="text" th:field="*{nome}" class="form-control" required/>
+                    <small class="text-danger" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></small>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">CPF / CNPJ *</label>
+                    <input type="text" th:field="*{cpfCnpj}" class="form-control" required/>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Telefone</label>
+                        <input type="text" th:field="*{telefone}" class="form-control"/>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">E-mail</label>
+                        <input type="email" th:field="*{email}" class="form-control"/>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Endereço</label>
+                    <input type="text" th:field="*{endereco}" class="form-control"/>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-danger px-4">
+                        <i class="bi bi-check-lg me-1"></i>Salvar
+                    </button>
+                    <a th:href="@{/clientes}" class="btn btn-outline-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+</div>
+</body>
+</html>
