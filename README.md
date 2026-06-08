@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🔧 Sistema de Gestão de Oficina Mecânica
 
 Projeto Integrador — Disciplina: Programação Orientada a Objetos  
@@ -130,3 +131,6 @@ Usuario (abstract)
 ├── Atendente      → getRole() = "ROLE_ATENDENTE"
 └── Mecanico       → getRole() = "ROLE_MECANICO"
 ```
+=======
+# oficina-mecanica
+>>>>>>> 46837df5b537478af0f0c325b830cdd9f1c17538
