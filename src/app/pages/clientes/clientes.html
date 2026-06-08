@@ -1,0 +1,94 @@
+<div class="layout">
+  <app-sidebar />
+  <main class="main">
+    <div class="page-header">
+      <div>
+        <h1>Clientes</h1>
+        <p>Gerencie os clientes da oficina</p>
+      </div>
+      <button class="btn-primary" (click)="abrirModal()">+ Novo Cliente</button>
+    </div>
+
+    <div class="search-bar">
+      <input type="text" placeholder="Buscar por nome ou CPF/CNPJ..."
+             [(ngModel)]="busca" />
+    </div>
+
+    @if (erro && !modalAberto) {
+      <div class="error-msg">{{ erro }}</div>
+    }
+
+    <div class="card-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>CPF/CNPJ</th>
+            <th>Telefone</th>
+            <th>Email</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (carregando) {
+            <tr><td colspan="5" class="empty">Carregando...</td></tr>
+          }
+          @for (c of clientesFiltrados; track c.id) {
+            <tr>
+              <td>{{ c.nome }}</td>
+              <td>{{ c.cpfCnpj }}</td>
+              <td>{{ c.telefone }}</td>
+              <td>{{ c.email }}</td>
+              <td>
+                <button class="btn-edit" (click)="abrirModal(c)">Editar</button>
+                <button class="btn-del" (click)="excluir(c.id)">Excluir</button>
+              </td>
+            </tr>
+          } @empty {
+            @if (!carregando) {
+              <tr><td colspan="5" class="empty">Nenhum cliente encontrado.</td></tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+
+    @if (modalAberto) {
+      <div class="modal-overlay">
+        <div class="modal" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <h2>{{ editando ? 'Editar Cliente' : 'Novo Cliente' }}</h2>
+            <button (click)="fecharModal()">×</button>
+          </div>
+          @if (erro) {
+            <div class="error-msg">{{ erro }}</div>
+          }
+         <div class="modal-form">
+            <div class="field">
+              <label>Nome *</label>
+              <input type="text" [(ngModel)]="form.nome" placeholder="Nome completo" maxlength="100" />
+            </div>
+            <div class="field">
+              <label>CPF/CNPJ</label>
+              <input type="text" [(ngModel)]="form.cpfCnpj" mask="000.000.000-00||00.000.000/0000-00" placeholder="CPF ou CNPJ" />
+            </div>
+            <div class="field">
+              <label>Telefone</label>
+             <input type="text" [(ngModel)]="form.telefone" mask="(00) 00000-0000" placeholder="(11) 99999-9999" />
+            </div>
+            <div class="field">
+              <label>Email</label>
+              <input type="email" [(ngModel)]="form.email" placeholder="email@exemplo.com" maxlength="100" />
+            </div>
+            <div class="modal-actions">
+              <button class="btn-cancel" (click)="fecharModal()" [disabled]="salvando">Cancelar</button>
+              <button class="btn-primary" (click)="salvar()" [disabled]="salvando">
+                {{ salvando ? 'Salvando...' : 'Salvar' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </main>
+</div>

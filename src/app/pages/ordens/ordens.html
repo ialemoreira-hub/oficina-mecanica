@@ -1,0 +1,161 @@
+<div class="layout">
+  <app-sidebar />
+  <main class="main">
+    <div class="page-header">
+      <div>
+        <h1>Ordens de Serviço</h1>
+        <p>Gerencie as ordens de serviço da oficina</p>
+      </div>
+      <button class="btn-primary" (click)="abrirModal()">+ Nova OS</button>
+    </div>
+
+    <div class="filtros">
+      <button class="filtro-btn" [class.ativo]="filtroStatus === ''" (click)="filtrarStatus('')">Todas</button>
+      <button class="filtro-btn" [class.ativo]="filtroStatus === 'ABERTA'" (click)="filtrarStatus('ABERTA')">Abertas</button>
+      <button class="filtro-btn" [class.ativo]="filtroStatus === 'EM_ANDAMENTO'" (click)="filtrarStatus('EM_ANDAMENTO')">Em Andamento</button>
+      <button class="filtro-btn" [class.ativo]="filtroStatus === 'CONCLUIDA'" (click)="filtrarStatus('CONCLUIDA')">Concluídas</button>
+      <button class="filtro-btn" [class.ativo]="filtroStatus === 'ENTREGUE'" (click)="filtrarStatus('ENTREGUE')">Entregues</button>
+    </div>
+
+    <div class="card-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Número</th>
+            <th>Veículo</th>
+            <th>Cliente</th>
+            <th>Status</th>
+            <th>Abertura</th>
+            <th>Total</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (carregando) {
+            <tr><td colspan="7" class="empty">Carregando...</td></tr>
+          }
+          @for (os of ordensFiltradas; track os.id) {
+            <tr>
+              <td><strong>{{ os.numeroOs }}</strong></td>
+              <td>{{ os.veiculo }}</td>
+              <td>{{ os.cliente }}</td>
+              <td><span class="badge" [class]="'badge-' + os.status">{{ os.statusLabel }}</span></td>
+              <td>{{ os.dataAbertura | date:'dd/MM/yyyy' }}</td>
+              <td>R$ {{ os.valorTotal | number:'1.2-2' }}</td>
+              <td><button class="btn-edit" (click)="verDetalhe(os)">Ver</button></td>
+            </tr>
+          } @empty {
+            @if (!carregando) {
+              <tr><td colspan="7" class="empty">Nenhuma ordem encontrada</td></tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+
+    @if (modalAberto) {
+      <div class="modal-overlay" (click)="fecharModal()">
+        <div class="modal" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <h2>Nova Ordem de Serviço</h2>
+            <button (click)="fecharModal()">×</button>
+          </div>
+          <div class="modal-form">
+            <div class="field">
+              <label>Veículo *</label>
+              <select [(ngModel)]="form.veiculoId">
+                <option value="">Selecione o veículo...</option>
+                @for (v of veiculos; track v.id) {
+                  <option [value]="v.id">{{ v.placa }} - {{ v.marca }} {{ v.modelo }} ({{ v.clienteNome }})</option>
+                }
+              </select>
+            </div>
+            <div class="field">
+              <label>Descrição do Problema *</label>
+              <textarea [(ngModel)]="form.descricaoProblema" rows="4"
+                placeholder="Descreva o problema relatado pelo cliente..."></textarea>
+            </div>
+            @if (erro) {
+              <div class="error-msg">{{ erro }}</div>
+            }
+            <div class="modal-actions">
+              <button type="button" class="btn-cancel" (click)="fecharModal()">Cancelar</button>
+              <button class="btn-primary" (click)="salvar()" [disabled]="salvando">
+                {{ salvando ? 'Abrindo...' : 'Abrir OS' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (osDetalhe) {
+      <div class="modal-overlay" (click)="fecharDetalhe()">
+        <div class="modal modal-lg" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <div>
+              <h2>{{ osDetalhe.numeroOs }}</h2>
+              <span class="badge" [class]="'badge-' + osDetalhe.status">{{ osDetalhe.statusLabel }}</span>
+            </div>
+            <button (click)="fecharDetalhe()">×</button>
+          </div>
+
+          <div class="detalhe-info">
+            <p><strong>Veículo:</strong> {{ osDetalhe.veiculo }}</p>
+            <p><strong>Cliente:</strong> {{ osDetalhe.cliente }}</p>
+            <p><strong>Problema:</strong> {{ osDetalhe.descricaoProblema }}</p>
+            <p><strong>Total:</strong> R$ {{ osDetalhe.valorTotal | number:'1.2-2' }}</p>
+          </div>
+
+          <div class="status-update">
+            <label>Atualizar Status:</label>
+            <div class="status-btns">
+              @for (s of statusOpcoes; track s.value) {
+                <button class="status-btn" [class.ativo]="osDetalhe.status === s.value"
+                  (click)="atualizarStatus(osDetalhe.id, s.value)">
+                  {{ s.label }}
+                </button>
+              }
+            </div>
+          </div>
+
+          <div class="itens-section">
+            <h3>Peças e Serviços</h3>
+            <table class="itens-table">
+              <thead>
+                <tr><th>Descrição</th><th>Tipo</th><th>Qtd</th><th>Unit.</th><th>Subtotal</th></tr>
+              </thead>
+              <tbody>
+                @for (item of osDetalhe.itens; track item.id) {
+                  <tr>
+                    <td>{{ item.descricao }}</td>
+                    <td>{{ item.tipo }}</td>
+                    <td>{{ item.quantidade }}</td>
+                    <td>R$ {{ item.valorUnitario | number:'1.2-2' }}</td>
+                    <td>R$ {{ item.subtotal | number:'1.2-2' }}</td>
+                  </tr>
+                } @empty {
+                  <tr><td colspan="5" class="empty">Nenhum item</td></tr>
+                }
+              </tbody>
+            </table>
+
+            <div class="add-item">
+              <h4>Adicionar Item</h4>
+              <div class="add-item-form">
+                <input type="text" placeholder="Descrição" [(ngModel)]="novoItem.descricao" />
+                <select [(ngModel)]="novoItem.tipo">
+                  <option value="PECA">Peça</option>
+                  <option value="SERVICO">Serviço</option>
+                </select>
+                <input type="number" placeholder="Qtd" [(ngModel)]="novoItem.quantidade" min="1" />
+                <input type="number" placeholder="Valor Unit." [(ngModel)]="novoItem.valorUnitario" step="0.01" />
+                <button class="btn-primary" (click)="adicionarItem()">Adicionar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </main>
+</div>

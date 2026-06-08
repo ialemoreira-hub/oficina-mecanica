@@ -1,0 +1,27 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f4f5f7;
+  color: #1a1a2e;
+}
+
+:root {
+  --sidebar-bg: #1a1a2e;
+  --sidebar-width: 240px;
+  --primary: #e63946;
+  --primary-dark: #c1121f;
+  --text-muted: #6b7280;
+  --border: #e5e7eb;
+  --card-bg: #ffffff;
+  --success: #16a34a;
+  --warning: #d97706;
+}
+
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; outline: none; }
+input, select, textarea { outline: none; font-family: inherit; }

@@ -1,0 +1,74 @@
+<div class="layout">
+  <app-sidebar />
+  <main class="main">
+    <div class="page-header">
+      <div>
+        <h1>Relatórios</h1>
+        <p>Visão gerencial do sistema</p>
+      </div>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Total de OS</div>
+        <div class="card-value">{{ stats.totalOs }}</div>
+      </div>
+      <div class="card card-warn">
+        <div class="card-label">OS Abertas</div>
+        <div class="card-value">{{ stats.osAbertas }}</div>
+      </div>
+      <div class="card card-green">
+        <div class="card-label">OS Concluídas</div>
+        <div class="card-value">{{ stats.osConcluidas }}</div>
+      </div>
+      <div class="card card-blue">
+        <div class="card-label">Total Clientes</div>
+        <div class="card-value">{{ stats.totalClientes }}</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <h2>Ordens por Status</h2>
+      </div>
+      <div class="status-grid">
+        @for (s of statusCount; track s.status) {
+          <div class="status-item">
+            <span class="badge" [class]="'badge-' + s.status">{{ s.label }}</span>
+            <span class="status-count">{{ s.count }}</span>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <h2>Últimas Ordens</h2>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Número</th>
+            <th>Veículo</th>
+            <th>Cliente</th>
+            <th>Status</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (os of ultimasOs; track os.id) {
+            <tr>
+              <td><strong>{{ os.numeroOs }}</strong></td>
+              <td>{{ os.veiculo }}</td>
+              <td>{{ os.cliente }}</td>
+              <td><span class="badge" [class]="'badge-' + os.status">{{ os.statusLabel }}</span></td>
+              <td>R$ {{ os.valorTotal | number:'1.2-2' }}</td>
+            </tr>
+          } @empty {
+            <tr><td colspan="5" class="empty">Nenhuma OS encontrada</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>

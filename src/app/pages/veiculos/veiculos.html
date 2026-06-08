@@ -1,0 +1,107 @@
+<div class="layout">
+  <app-sidebar />
+  <main class="main">
+    <div class="page-header">
+      <div>
+        <h1>Veículos</h1>
+        <p>Gerencie os veículos cadastrados</p>
+      </div>
+      <button class="btn-primary" (click)="abrirModal()">+ Novo Veículo</button>
+    </div>
+
+    <div class="search-bar">
+      <input type="text" placeholder="Buscar por placa ou modelo..."
+             [(ngModel)]="busca" (input)="filtrar()" />
+    </div>
+
+    <div class="card-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Placa</th>
+            <th>Marca / Modelo</th>
+            <th>Ano</th>
+            <th>Cor</th>
+            <th>Cliente</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+      
+          @for (v of veiculosFiltrados; track v.id) {
+            <tr>
+              <td><strong>{{ v.placa }}</strong></td>
+              <td>{{ v.marca }} {{ v.modelo }}</td>
+              <td>{{ v.ano }}</td>
+              <td>{{ v.cor }}</td>
+              <td>{{ v.clienteNome }}</td>
+              <td>
+                <button class="btn-edit" (click)="editar(v)">Editar</button>
+                <button class="btn-del" (click)="excluir(v.id)">Excluir</button>
+              </td>
+            </tr>
+          } @empty {
+            @if (!carregando) {
+              <tr><td colspan="6" class="empty">Nenhum veículo encontrado.</td></tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+
+    @if (modalAberto) {
+      <div class="modal-overlay">
+        <div class="modal" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <h2>{{ form.id ? 'Editar Veículo' : 'Novo Veículo' }}</h2>
+            <button (click)="fecharModal()">×</button>
+          </div>
+          @if (erro) {
+            <div class="error-msg">{{ erro }}</div>
+          }
+          <div class="modal-form">
+            <div class="field">
+              <label>Cliente *</label>
+              <select [(ngModel)]="form.clienteId">
+                <option value="">Selecione o cliente...</option>
+                @for (c of clientes; track c.id) {
+                  <option [value]="c.id">{{ c.nome }}</option>
+                }
+              </select>
+            </div>
+            <div class="field">
+              <label>Placa *</label>
+             <input type="text" [(ngModel)]="form.placa" placeholder="ABC-1234" maxlength="8" (keydown.space)="$event.preventDefault()" />
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label>Marca *</label>
+                <input type="text" [(ngModel)]="form.marca" placeholder="Ex: Honda" maxlength="50" />
+              </div>
+              <div class="field">
+                <label>Modelo *</label>
+                <input type="text" [(ngModel)]="form.modelo" placeholder="Ex: Civic" maxlength="50" />
+              </div>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label>Ano *</label>
+                <input type="number" [(ngModel)]="form.ano" placeholder="2024" min="1900" max="2030" />
+              </div>
+              <div class="field">
+                <label>Cor</label>
+                <input type="text" [(ngModel)]="form.cor" placeholder="Ex: Prata" maxlength="30" />
+              </div>
+            </div>
+            <div class="modal-actions">
+              <button class="btn-cancel" (click)="fecharModal()" [disabled]="salvando">Cancelar</button>
+              <button class="btn-primary" (click)="salvar()" [disabled]="salvando">
+                {{ salvando ? 'Salvando...' : 'Salvar' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </main>
+</div>

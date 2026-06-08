@@ -1,0 +1,94 @@
+<div class="layout">
+  <app-sidebar />
+  <main class="main">
+    <div class="page-header">
+      <div>
+        <h1>Usuários</h1>
+        <p>Gerencie os usuários do sistema</p>
+      </div>
+      <button class="btn-primary" (click)="abrirModal()">+ Novo Usuário</button>
+    </div>
+
+    <div class="card-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Perfil</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let u of usuarios">
+            <td>{{ u.nome }}</td>
+            <td>{{ u.email }}</td>
+            <td>
+              <span class="badge-perfil" [class]="'perfil-' + u.tipoUsuario">
+                {{ u.tipoDescricao }}
+              </span>
+            </td>
+            <td>
+              <span class="status-ativo" *ngIf="u.ativo">Ativo</span>
+              <span class="status-inativo" *ngIf="!u.ativo">Inativo</span>
+            </td>
+            <td>
+              <button class="btn-del" (click)="desativar(u.id)" *ngIf="u.ativo">Desativar</button>
+            </td>
+          </tr>
+          <tr *ngIf="usuarios.length === 0">
+            <td colspan="5" class="empty">Nenhum usuário encontrado</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="modal-overlay" *ngIf="modalAberto" (click)="fecharModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h2>Novo Usuário</h2>
+          <button (click)="fecharModal()">×</button>
+        </div>
+        <form (ngSubmit)="salvar()" class="modal-form">
+          <div class="field">
+            <label>Perfil *</label>
+            <select name="tipo" [(ngModel)]="form.tipo" required (change)="onTipoChange()">
+              <option value="">Selecione o perfil...</option>
+              <option value="ADMINISTRADOR">Administrador</option>
+              <option value="ATENDENTE">Atendente</option>
+              <option value="MECANICO">Mecânico</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Nome completo *</label>
+            <input type="text" name="nome" [(ngModel)]="form.nome" required />
+          </div>
+          <div class="field">
+            <label>E-mail *</label>
+            <input type="email" name="email" [(ngModel)]="form.email" required />
+          </div>
+          <div class="field">
+            <label>Senha *</label>
+            <input type="password" name="senha" [(ngModel)]="form.senha" required minlength="6" />
+          </div>
+          <div class="field" *ngIf="form.tipo === 'ATENDENTE'">
+            <label>Matrícula</label>
+            <input type="text" name="matricula" [(ngModel)]="form.matricula" />
+          </div>
+          <div class="field" *ngIf="form.tipo === 'MECANICO'">
+            <label>Especialidade</label>
+            <input type="text" name="especialidade" [(ngModel)]="form.especialidade" placeholder="Ex: Motor, Elétrica..." />
+          </div>
+          <div class="error-msg" *ngIf="erro">{{ erro }}</div>
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" (click)="fecharModal()">Cancelar</button>
+            <button type="submit" class="btn-primary" [disabled]="salvando">
+              {{ salvando ? 'Salvando...' : 'Cadastrar' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>

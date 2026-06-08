@@ -1,0 +1,67 @@
+<div class="layout">
+  <app-sidebar />
+  <main class="main">
+    <div class="page-header">
+      <div>
+        <h1>Dashboard</h1>
+        <p>Visão geral da oficina</p>
+      </div>
+      <button class="btn-primary" (click)="novaOs()">+ Nova OS</button>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Total de OS</div>
+        <div class="card-value">{{ stats.totalOs }}</div>
+        <div class="card-sub">ordens cadastradas</div>
+      </div>
+      <div class="card card-warn">
+        <div class="card-label">OS Abertas</div>
+        <div class="card-value">{{ stats.osAbertas }}</div>
+        <div class="card-sub">aguardando atendimento</div>
+      </div>
+      <div class="card card-green">
+        <div class="card-label">Clientes</div>
+        <div class="card-value">{{ stats.totalClientes }}</div>
+        <div class="card-sub">cadastrados</div>
+      </div>
+      <div class="card card-blue">
+        <div class="card-label">Veículos</div>
+        <div class="card-value">{{ stats.totalVeiculos }}</div>
+        <div class="card-sub">registrados</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <h2>Últimas Ordens de Serviço</h2>
+        <a routerLink="/ordens" class="ver-todas">Ver todas</a>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Número</th>
+              <th>Veículo</th>
+              <th>Cliente</th>
+              <th>Status</th>
+              <th>Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let os of ultimasOs">
+              <td><strong>{{ os.numeroOs }}</strong></td>
+              <td>{{ os.veiculo }}</td>
+              <td>{{ os.cliente }}</td>
+              <td><span class="badge" [class]="'badge-' + os.status">{{ os.statusLabel }}</span></td>
+              <td>R$ {{ os.valor | number:'1.2-2' }}</td>
+            </tr>
+            <tr *ngIf="ultimasOs.length === 0">
+              <td colspan="5" class="empty">Nenhuma ordem encontrada</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
