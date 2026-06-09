@@ -45,9 +45,9 @@ export class Dashboard implements OnInit {
 
   carregarDados() {
     forkJoin({
-      ordens: this.http.get<any>('http://localhost:8080/ordens/api', { headers: this.getHeaders() }),
-      clientes: this.http.get<any>('http://localhost:8080/clientes/api', { headers: this.getHeaders() }),
-      veiculos: this.http.get<any>('http://localhost:8080/veiculos/api', { headers: this.getHeaders() })
+      ordens: this.http.get<any>('https://oficina-mecanica-wd4c.onrender.com/ordens/api', { headers: this.getHeaders() }),
+      clientes: this.http.get<any>('https://oficina-mecanica-wd4c.onrender.com/clientes/api', { headers: this.getHeaders() }),
+      veiculos: this.http.get<any>('https://oficina-mecanica-wd4c.onrender.com/veiculos/api', { headers: this.getHeaders() })
     }).subscribe({
       next: ({ ordens, clientes, veiculos }) => {
         const listaOrdens = Array.isArray(ordens) ? ordens : (ordens.content ?? []);

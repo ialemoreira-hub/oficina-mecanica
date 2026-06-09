@@ -23,7 +23,7 @@ export class Login {
     this.erro = '';
     this.carregando = true;
 
-    this.http.post<any>('http://localhost:8080/usuarios/api/login', {
+    this.http.post<any>('https://oficina-mecanica-wd4c.onrender.com/usuarios/api/login', {
       email: this.email,
       senha: this.senha
     }).subscribe({

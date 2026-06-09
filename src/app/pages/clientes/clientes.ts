@@ -15,7 +15,7 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 })
 export class Clientes implements OnInit {
 
-  private api = 'http://localhost:8080/clientes/api';
+  private api = 'https://oficina-mecanica-wd4c.onrender.com/clientes/api';
 
   clientes: any[] = [];
   carregando = true;

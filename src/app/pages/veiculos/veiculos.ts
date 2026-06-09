@@ -13,8 +13,8 @@ import { Sidebar } from '../../layout/sidebar/sidebar';
 })
 export class Veiculos implements OnInit {
 
-  private api = 'http://localhost:8080/veiculos/api';
-  private apiClientes = 'http://localhost:8080/clientes/api';
+  private api = 'https://oficina-mecanica-wd4c.onrender.com/veiculos/api';
+  private apiClientes = 'https://oficina-mecanica-wd4c.onrender.com/clientes/api';
 
   veiculos: any[] = [];
   veiculosFiltrados: any[] = [];

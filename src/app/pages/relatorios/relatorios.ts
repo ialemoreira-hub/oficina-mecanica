@@ -57,8 +57,8 @@ export class Relatorios implements OnInit {
     this.erro = '';
 
     forkJoin({
-      ordens: this.http.get<any>('http://localhost:8080/ordens/api', { headers: this.getHeaders() }),
-      clientes: this.http.get<any>('http://localhost:8080/clientes/api', { headers: this.getHeaders() })
+      ordens: this.http.get<any>('https://oficina-mecanica-wd4c.onrender.com/ordens/api', { headers: this.getHeaders() }),
+      clientes: this.http.get<any>('https://oficina-mecanica-wd4c.onrender.com/clientes/api', { headers: this.getHeaders() })
     }).subscribe({
       next: ({ ordens, clientes }) => {
         const listaOrdens = this.toArray(ordens);

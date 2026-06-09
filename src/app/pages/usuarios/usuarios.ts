@@ -35,7 +35,7 @@ export class Usuarios implements OnInit {
   }
 
   carregarUsuarios() {
-    fetch('http://localhost:8080/usuarios/api')
+    fetch('https://oficina-mecanica-wd4c.onrender.com/usuarios/api')
       .then(r => r.json())
       .then((data: any[]) => {
         this.usuarios = data;
@@ -65,7 +65,7 @@ export class Usuarios implements OnInit {
     this.erro = '';
     this.salvando = true;
 
-    fetch('http://localhost:8080/usuarios/api', {
+    fetch('https://oficina-mecanica-wd4c.onrender.com/usuarios/api', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(this.form)
@@ -86,7 +86,7 @@ export class Usuarios implements OnInit {
 
   desativar(id: number) {
     if (!confirm('Desativar este usuário?')) return;
-    fetch(`http://localhost:8080/usuarios/api/${id}`, { method: 'DELETE' })
+    fetch(`https://oficina-mecanica-wd4c.onrender.com/usuarios/api/${id}`, { method: 'DELETE' })
       .then(() => this.carregarUsuarios())
       .catch(err => console.error('Erro:', err));
   }
