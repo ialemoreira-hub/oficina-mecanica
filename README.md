@@ -1,59 +1,101 @@
-# OficinaFrontend
+# Sistema de Gestao de Oficina Mecanica
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.8.
+Projeto Integrador da disciplina de Programacao Orientada a Objetos  
+4 Semestre - Analise e Desenvolvimento de Sistemas
 
-## Development server
+---
 
-To start a local development server, run:
+## Integrantes
 
-```bash
-ng serve
-```
+- Iale Moreira - 219494
+- Lucas Henrique - 060578
+- Luigi Sapucaia - 191145
+- Jose Artur - 217824
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## Tema Sorteado
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Sistema de Gestao de Oficina Mecanica
 
-```bash
-ng generate component component-name
-```
+---
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Descricao do Sistema
 
-```bash
-ng generate --help
-```
+Sistema web completo para gerenciamento de uma oficina mecanica, permitindo controle de clientes, veiculos, ordens de servico, usuarios com perfis diferentes e relatorios gerenciais.
 
-## Building
+---
 
-To build the project run:
+## Tecnologias Utilizadas
 
-```bash
-ng build
-```
+### Backend
+- Java 21 + Spring Boot 3.4.5
+- Spring Security + BCrypt
+- Spring Data JPA + Hibernate
+- MySQL 8.0
+- Thymeleaf
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### Frontend
+- Angular 21
+- TypeScript
+- HTML5 + CSS3
 
-## Running unit tests
+---
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Organizacao em Camadas
 
-```bash
-ng test
-```
+- model: classes de dominio da aplicacao
+- repository: acesso ao banco de dados
+- service: regras de negocio
+- controller: endpoints REST e MVC
 
-## Running end-to-end tests
+---
 
-For end-to-end (e2e) testing, run:
+## Conceitos de POO Aplicados
 
-```bash
-ng e2e
-```
+- Heranca: Administrador, Atendente e Mecanico estendem Usuario
+- Polimorfismo: metodos getTipoUsuario() e getTipoDescricao() com comportamento diferente em cada subclasse
+- Encapsulamento: atributos privados com getters e setters
+- Override: getTipoUsuario() e getTipoDescricao() sobrescritos em cada subclasse
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+---
 
-## Additional Resources
+## Como Executar
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### Pre-requisitos
+- Java 21 ou superior
+- MySQL 8.0
+- Node.js 20 ou superior com Angular CLI
+- IntelliJ IDEA
+
+### Backend (branch: backend)
+1. Configure o MySQL com banco oficina_mecanica, usuario root, senha root123
+2. Abra o projeto no IntelliJ IDEA
+3. Execute OficinaApplication.java
+4. Backend disponivel em http://localhost:8080
+
+### Frontend (branch: main)
+1. Instale as dependencias com: npm install
+2. Inicie o servidor com: ng serve --port 4200
+3. Frontend disponivel em http://localhost:4200
+
+---
+
+## Login Padrao
+
+- E-mail: admin@oficina.com
+- Senha: admin123
+
+---
+
+## Funcionalidades
+
+- Login com perfis de acesso: Administrador, Atendente e Mecanico
+- Cadastro, edicao, exclusao e listagem de clientes
+- Cadastro, edicao, exclusao e listagem de veiculos
+- Abertura e gerenciamento de ordens de servico
+- Adicao de pecas e servicos nas ordens
+- Controle de status das ordens
+- Dashboard com estatisticas gerais
+- Relatorios gerenciais
+- Gestao de usuarios com restricao por perfil
