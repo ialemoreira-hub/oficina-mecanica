@@ -15,6 +15,10 @@ Projeto Integrador da disciplina de Programação Orientada a Objetos
 
 ---
 
+## Aplicação Online
+
+https://oficina-mecanica-bc0ae.web.app
+
 ## Descrição
 
 Aplicação web desenvolvida em Angular para gerenciamento de oficinas mecânicas, permitindo o controle de clientes, veículos, ordens de serviço e usuários.
