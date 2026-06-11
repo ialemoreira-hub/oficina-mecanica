@@ -1,136 +1,138 @@
-<<<<<<< HEAD
-# 🔧 Sistema de Gestão de Oficina Mecânica
+# Sistema de Gestão de Oficina Mecânica - Backend
 
-Projeto Integrador — Disciplina: Programação Orientada a Objetos  
-4º Semestre — Análise e Desenvolvimento de Sistemas
+Projeto Integrador da disciplina de Programação Orientada a Objetos
 
----
-
-## 👥 Integrantes do Grupo
-
-- [Nome 1]
-- [Nome 2]
-- [Nome 3]
-- [Nome 4]
+**4º Semestre - Análise e Desenvolvimento de Sistemas**
 
 ---
 
-## 📌 Tema Sorteado
+## Integrantes
 
-**Sistema de Gestão de Oficina Mecânica**
-
----
-
-## 📋 Descrição do Sistema
-
-Sistema web desenvolvido em Java com Spring Boot para gerenciamento completo de uma oficina mecânica. Permite o controle de clientes, veículos, ordens de serviço, peças, serviços, pagamentos e relatórios.
+- Iale Moreira - 219494
+- Lucas Henrique - 060578
+- Luigi Sapucaia - 191145
+- José Artur - 217824
 
 ---
 
-## ✅ Conceitos de POO Aplicados
+## Descrição
 
-| Conceito | Onde está no código |
-|---|---|
-| **Herança** | `Administrador`, `Atendente`, `Mecanico` herdam de `Usuario` |
-| **Polimorfismo** | Método `getRole()` retorna valores diferentes por tipo de usuário |
-| **Override** | `getRole()` e `getTipoDescricao()` sobrescritos em cada subclasse |
-| **Encapsulamento** | Todos os atributos são `private` com getters/setters |
-| **Construtores** | Todas as classes possuem construtores personalizados |
-| **Classes** | 10+ classes próprias do domínio |
+API REST desenvolvida em Spring Boot para gerenciamento de oficinas mecânicas, responsável pelo controle de usuários, clientes, veículos e ordens de serviço.
 
 ---
 
-## 🗂️ Estrutura do Projeto
+## Tecnologias Utilizadas
 
-```
-src/main/java/com/oficina/
-├── model/          → Classes de domínio (Usuario, Cliente, Veiculo, OrdemServico...)
-├── service/        → Regras de negócio (OrdemServicoService, ClienteService...)
-├── repository/     → Acesso ao banco de dados (Spring Data JPA)
-├── controller/     → Controladores web (rotas HTTP)
-└── util/           → Configurações (SecurityConfig, DataInitializer)
-```
-
----
-
-## 🛠️ Tecnologias Utilizadas
-
-- **Java 17**
-- **Spring Boot 3.2**
-- **Spring Security** (autenticação e perfis)
-- **Spring Data JPA + Hibernate** (persistência)
-- **MySQL** (banco de dados)
-- **Thymeleaf** (templates HTML)
-- **Bootstrap 5** (interface)
-- **Maven** (gerenciador de dependências)
+- Java 21
+- Spring Boot 3.4.5
+- Spring Security
+- BCrypt
+- Spring Data JPA
+- Hibernate
+- PostgreSQL
+- Thymeleaf
+- Maven
+- Docker
 
 ---
 
-## ▶️ Como Executar
+## Organização em Camadas
+
+- **model** → classes de domínio
+- **repository** → acesso ao banco de dados
+- **service** → regras de negócio
+- **controller** → endpoints REST e MVC
+
+---
+
+## Conceitos de POO Aplicados
+
+### Herança
+
+Administrador, Atendente e Mecânico estendem a classe Usuario.
+
+### Polimorfismo
+
+Métodos `getTipoUsuario()` e `getTipoDescricao()` possuem comportamentos diferentes em cada subclasse.
+
+### Encapsulamento
+
+Atributos privados utilizando getters e setters.
+
+### Override
+
+Métodos sobrescritos nas subclasses para especialização de comportamento.
+
+---
+
+## Funcionalidades
+
+- Autenticação e autorização de usuários
+- Controle de perfis de acesso
+- Cadastro de clientes
+- Cadastro de veículos
+- Cadastro de usuários
+- Controle de ordens de serviço
+- Controle de peças e serviços
+- Dashboard com estatísticas
+- Relatórios gerenciais
+
+---
+
+## Como Executar
 
 ### Pré-requisitos
-- Java 17+
-- MySQL rodando localmente
+
+- Java 21 ou superior
+- PostgreSQL
 - Maven
+- IntelliJ IDEA
 
-### Passos
+### Configuração do Banco
 
-1. Clone o repositório:
-```bash
-git clone https://github.com/seu-usuario/oficina-mecanica.git
-cd oficina-mecanica
-```
-
-2. Configure o banco de dados em `src/main/resources/application.properties`:
 ```properties
-spring.datasource.username=root
-spring.datasource.password=SUA_SENHA
+spring.datasource.url=jdbc:postgresql://localhost:5432/oficina_mecanica
+spring.datasource.username=postgres
+spring.datasource.password=sua_senha
 ```
 
-3. Execute o projeto:
+### Execução
+
 ```bash
 mvn spring-boot:run
 ```
 
-4. Acesse no navegador:
-```
+Backend disponível em:
+
+```text
 http://localhost:8080
 ```
 
-### Login padrão
-| Campo | Valor |
-|---|---|
-| E-mail | admin@oficina.com |
-| Senha | admin123 |
+---
 
-> O banco de dados é criado automaticamente na primeira execução.
+## Login Padrão
+
+### Administrador
+
+```text
+E-mail: admin@oficina.com
+Senha: admin123
+```
 
 ---
 
-## 📱 Funcionalidades
+## Deploy
 
-- [x] Login com perfis (Administrador, Atendente, Mecânico)
-- [x] Dashboard com resumo do sistema
-- [x] Cadastro de clientes (CRUD completo)
-- [x] Cadastro de veículos vinculados a clientes
-- [x] Abertura e gerenciamento de Ordens de Serviço
-- [x] Adição de peças e serviços na OS
-- [x] Cálculo automático do valor total
-- [x] Controle de status da OS (Aberta → Em Andamento → Concluída → Entregue)
-- [x] Registro de pagamento
-- [x] Relatório de OS por status
-- [x] Relatório de faturamento por período
+Backend hospedado utilizando Render com PostgreSQL.
 
 ---
 
-## 🏗️ Hierarquia de Classes
+## Frontend
 
-```
-Usuario (abstract)
-├── Administrador  → getRole() = "ROLE_ADMIN"
-├── Atendente      → getRole() = "ROLE_ATENDENTE"
-└── Mecanico       → getRole() = "ROLE_MECANICO"
-```
-=======
-# oficina-mecanica
->>>>>>> 46837df5b537478af0f0c325b830cdd9f1c17538
+A aplicação frontend encontra-se na branch **main** deste repositório.
+
+---
+
+## Observação
+
+Durante o desenvolvimento foi utilizado MySQL localmente. Para o deploy em produção no Render, a aplicação foi adaptada para utilizar PostgreSQL.
